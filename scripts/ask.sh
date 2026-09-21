@@ -19,10 +19,10 @@ notify() { "$herdr" notification show "$1" >/dev/null 2>&1 || true; }
 
 case "$mode" in
   fix) system="You are a shell assistant. The user pastes the last lines of their terminal.
-Find the most recent failed command and its error message.
+Find the most recent failed command and its error message. If nothing failed, reply with the single line: no error found.
 Reply with ONLY the single shell command that fixes it. No explanation, no markdown, no code fences." ;;
   explain) system="You are a shell assistant. The user pastes the last lines of their terminal.
-Find the most recent failed command and its error message.
+Find the most recent failed command and its error message. If nothing failed, reply with the single line: no error found.
 Explain the cause in 2-4 sentences, then give the fix command on its own line prefixed by 'Fix: '.
 Plain text, no markdown." ;;
   *) echo "unknown mode: $mode" >&2; exit 2 ;;
