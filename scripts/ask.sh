@@ -49,5 +49,5 @@ case "$mode" in
   explain)
     printf '%s\n' "$answer" > "$state/last.txt"
     "$herdr" plugin pane open --plugin herdr-explain --entrypoint result \
-      --placement split --direction down --target-pane "$pane" --focus >/dev/null ;;
+      --placement split --direction down --ratio 0.33 --target-pane "$pane" --focus >/dev/null ;;
 esac
