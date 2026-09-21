@@ -1,6 +1,6 @@
 # herdr-explain
 
-Explain or fix the most recent error in the current herdr pane with a local OpenAI-compatible LLM. Reads the pane scrollback, never reruns anything, works in any shell.
+Explain or fix the most recent error in the current herdr pane with a local OpenAI-compatible LLM. Reads the pane scrollback, never reruns anything, works in any shell, including SSH sessions to other hosts (the remote never sees the plugin).
 
 - `prefix+a` explain: explanation opens in a split pane, `q` closes.
 - `prefix+f` fix: proposed command is typed into the pane, you press Enter.
