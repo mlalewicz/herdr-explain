@@ -9,7 +9,7 @@ cat > "$tmp/bin/herdr" <<'STUB'
 case "$1 $2" in
   "pane read") printf '%s\n' '~ ❯ ls /nope' 'ls: cannot access '"'"'/nope'"'"': No such file or directory' '~ ❯ ' ;;
   "pane send-text") printf '%s' "$4" > "$STUB_LOG/sent" ;;
-  "plugin pane") echo opened > "$STUB_LOG/opened" ;;
+  "plugin pane") echo opened > "$STUB_LOG/opened"; echo "{\"result\":{\"plugin_pane\":{\"pane\":{\"pane_id\":\"test:p2\"}}}}" ;;
 esac
 STUB
 chmod +x "$tmp/bin/herdr"
