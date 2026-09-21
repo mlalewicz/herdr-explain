@@ -1,0 +1,28 @@
+# herdr-explain — explain or fix the most recent error in the current pane
+# using a local OpenAI-compatible LLM (llama-server by default).
+# Shell-agnostic: it reads the pane scrollback, never reruns anything.
+
+id = "herdr-explain"
+name = "herdr-explain"
+version = "0.1.0"
+description = "Explain or fix the last error in the current pane via a local LLM."
+min_herdr_version = "0.9.0"
+platforms = ["linux", "macos"]
+
+[[actions]]
+id = "explain"
+title = "Explain last error"
+description = "Send recent scrollback to the LLM, show the explanation in a split pane."
+command = ["bash", "scripts/ask.sh"]
+
+[[actions]]
+id = "fix"
+title = "Fix last error"
+description = "Send recent scrollback to the LLM, type the proposed fix into the pane (no Enter)."
+command = ["bash", "scripts/ask.sh"]
+
+[[panes]]
+id = "result"
+title = "explain"
+placement = "split"
+command = ["bash", "scripts/show.sh"]
