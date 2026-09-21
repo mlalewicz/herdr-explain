@@ -10,3 +10,8 @@ Config (optional): `~/.config/herdr/plugins/config/herdr-explain/explain.conf` w
 Install: `herdr plugin link ~/infra/herdr-explain`, append the keybindings below to `~/.config/herdr/config.toml`, `herdr server reload-config`.
 
 Test: `./test.sh` (needs the LLM up).
+
+## Possible todos
+
+- Remote host OS: fixes for an SSH session may come back in the local distro's dialect (pacman vs apt). Add a prompt line telling the model to infer the OS of the failing host from the output.
+- Exit code and command boundaries: the scrollback is text only, herdr does not parse OSC 133. A `fish_postexec` hook writing command + `$status` to a per-pane file would give both for shells that opt in.
