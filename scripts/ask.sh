@@ -39,12 +39,16 @@ scrollback="$("$herdr" pane read "$pane" --source recent-unwrapped --lines "$EXP
 
 # enable_thinking=false is a llama-server chat_template_kwargs knob; other
 # OpenAI-compatible servers ignore or reject it.
-answer="$(jq -n --arg s "$system" --arg u "$scrollback" --argjson n "$EXPLAIN_MAX_TOKENS" \
+resp="$(jq -n --arg s "$system" --arg u "$scrollback" --argjson n "$EXPLAIN_MAX_TOKENS" \
     '{messages:[{role:"system",content:$s},{role:"user",content:$u}],
       max_tokens:$n, temperature:0.2, chat_template_kwargs:{enable_thinking:false}}' \
-  | curl -sS -m 60 "$EXPLAIN_URL" -H 'content-type: application/json' -d @- \
-  | jq -r '.choices[0].message.content // empty')" \
-  || { notify "explain: request to $EXPLAIN_URL failed"; exit 1; }
+  | curl -sS -m 60 "$EXPLAIN_URL" -H 'content-type: application/json' -d @-)" || {
+  case $? in
+    6|7) notify "explain: no LLM at $EXPLAIN_URL. Start llama-server or set EXPLAIN_URL in $conf" ;;
+    28)  notify "explain: LLM at $EXPLAIN_URL timed out" ;;
+    *)   notify "explain: request to $EXPLAIN_URL failed" ;;
+  esac; exit 1; }
+answer="$(printf '%s' "$resp" | jq -r '.choices[0].message.content // empty')"
 [ -n "$answer" ] || { notify "explain: empty answer from $EXPLAIN_URL"; exit 1; }
 # model output goes to a PTY: drop every C0 control byte except LF (CR would
 # submit, TAB completes, ESC sequences edit the line)

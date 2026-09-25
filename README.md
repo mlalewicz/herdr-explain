@@ -14,7 +14,7 @@ Config (optional): `explain.conf` in `$(herdr plugin config-dir herdr-explain)`,
 
 Install: `herdr plugin link ~/infra/herdr-explain`, append the keybindings below to `~/.config/herdr/config.toml`, `herdr server reload-config`.
 
-Test: `./test.sh` (needs the LLM up).
+Test: `./test.sh` (needs the LLM up). Nothing checks the LLM at install; the first keypress with it down notifies "no LLM at <url>", so `curl <url>` once after setup.
 
 ```toml
 [[keys.command]]

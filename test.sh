@@ -10,6 +10,7 @@ cat > "$tmp/bin/herdr" <<'STUB'
 case "$1 $2" in
   "pane read") printf '%s\n' '~ ❯ ls /nope' 'ls: cannot access '"'"'/nope'"'"': No such file or directory' '~ ❯ ' ;;
   "pane send-text") printf '%s' "$4" > "$STUB_LOG/sent" ;;
+  "notification show") printf '%s\n' "$3" >> "$STUB_LOG/notify" ;;
   "plugin pane") echo opened > "$STUB_LOG/opened"; echo "{\"result\":{\"plugin_pane\":{\"pane\":{\"pane_id\":\"test:p2\"}}}}" ;;
 esac
 STUB
@@ -33,6 +34,12 @@ case "$sent" in '# '*) ;; *) echo "FAIL inline: not a comment: $sent"; exit 1;; 
 case "$sent" in *$'\n'*) echo "FAIL inline: multi-line"; exit 1;; esac
 [ ! -f "$tmp/opened" ] || { echo "FAIL inline: pane opened"; exit 1; }
 echo "inline ok: $sent"
+
+# --- LLM down: connection refused must name the URL and the conf file
+if EXPLAIN_URL=http://127.0.0.1:9/v1/chat/completions bash "$here/scripts/ask.sh" explain 2>/dev/null; then
+  echo "FAIL down: exit 0"; exit 1; fi
+grep -q 'no LLM at http://127.0.0.1:9.*explain.conf' "$tmp/notify" || { echo "FAIL down:"; cat "$tmp/notify"; exit 1; }
+echo "down ok"
 
 # --- stubbed curl: control chars and double spaces must survive/strip exactly
 cat > "$tmp/bin/curl" <<'STUB'
