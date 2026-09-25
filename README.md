@@ -12,7 +12,7 @@ Config (optional): `explain.conf` in `$(herdr plugin config-dir herdr-explain)`,
 - `EXPLAIN_MAX_TOKENS` — default 400
 - `EXPLAIN_OUTPUT` — `pane` (default) opens a split; `inline` types the explanation into the pane as one `# ` comment line, no Enter
 
-Install: `herdr plugin link ~/infra/herdr-explain`, append the keybindings below to `~/.config/herdr/config.toml`, `herdr server reload-config`.
+Install: `herdr plugin install mlalewicz/herdr-explain` (or `herdr plugin link <checkout>` for development), append the keybindings below to `~/.config/herdr/config.toml`, `herdr server reload-config`.
 
 Test: `./test.sh` (needs the LLM up). Nothing checks the LLM at install; the first keypress with it down notifies "no LLM at <url>", so `curl <url>` once after setup.
 
